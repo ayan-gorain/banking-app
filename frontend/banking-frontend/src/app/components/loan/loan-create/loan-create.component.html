@@ -1,0 +1,99 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+    
+    <!-- Title -->
+    <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Create a Loan</h2>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-blue-500 font-semibold text-center mb-4">
+      Loading accounts...
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="text-red-600 font-semibold text-center mb-4">
+      {{ error }}
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="message" class="text-green-600 font-semibold text-center mb-4">
+      {{ message }}
+    </div>
+
+    <!-- Loan Form -->
+    <form (ngSubmit)="createLoan()" *ngIf="!loading">
+      
+      <!-- Account Selection -->
+      <div class="mb-4">
+        <label for="account" class="block font-medium mb-2 text-gray-700">Select Account:</label>
+        <select
+          id="account"
+          [(ngModel)]="accountId"
+          name="accountId"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          required
+        >
+          <option value="" disabled>Select an account</option>
+          <option *ngFor="let acc of accounts" [value]="acc._id">
+            {{ acc.accountNumber }} - {{ acc.accountHolderName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Loan Amount -->
+      <div class="mb-4">
+        <label for="amount" class="block font-medium mb-2 text-gray-700">Amount:</label>
+        <input
+          id="amount"
+          type="number"
+          [(ngModel)]="amount"
+          name="amount"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Enter loan amount"
+          required
+          min="1"
+        />
+      </div>
+
+      <!-- Interest Rate -->
+      <div class="mb-4">
+        <label for="interest" class="block font-medium mb-2 text-gray-700">Interest Rate (%):</label>
+        <input
+          id="interest"
+          type="number"
+          [(ngModel)]="interestRate"
+          name="interestRate"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Enter interest rate"
+          required
+          min="0"
+          step="0.01"
+        />
+      </div>
+
+      <!-- Term Months -->
+      <div class="mb-6">
+        <label for="term" class="block font-medium mb-2 text-gray-700">Term (Months):</label>
+        <input
+          id="term"
+          type="number"
+          [(ngModel)]="termMonths"
+          name="termMonths"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Enter term in months"
+          required
+          min="1"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button
+          type="submit"
+          class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition transform hover:scale-105"
+        >
+          Create Loan
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

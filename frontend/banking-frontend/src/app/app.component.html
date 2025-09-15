@@ -1,2 +1,46 @@
-<h1 class="text-3xl font-bold text-blue-600">Hello Tailwind</h1>
+<nav class="bg-blue-600 p-4 shadow-md">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="text-white font-bold text-xl">
+      Banking App
+    </div>
+    <div class="space-x-4">
+      <ng-container *ngIf="!isLoggedIn; else loggedIn">
+        <a 
+          routerLink="/login" 
+          class="text-white hover:bg-blue-500 px-3 py-2 rounded transition"
+        >
+          Login
+        </a>
+        <a 
+          routerLink="/signup" 
+          class="text-white hover:bg-blue-500 px-3 py-2 rounded transition"
+        >
+          Signup
+        </a>
+        <a 
+          routerLink="/admin/login" 
+          class="text-white hover:bg-blue-500 px-3 py-2 rounded transition"
+        >
+          Admin
+        </a>
+      </ng-container>
+      <ng-template #loggedIn>
+        <a 
+          *ngIf="isAdmin" 
+          routerLink="/admin" 
+          class="text-white hover:bg-blue-500 px-3 py-2 rounded transition"
+        >
+          Admin
+        </a>
+        <button 
+          (click)="logout()" 
+          class="text-white hover:bg-blue-500 px-3 py-2 rounded transition"
+        >
+          Logout
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</nav>
+
 <router-outlet></router-outlet>
