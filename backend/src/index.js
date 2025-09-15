@@ -5,16 +5,18 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-import { authMiddleware } from "./middleware/auth.js";
-
+import { seedAdmin } from "./bootstrap/seedAdmin.js";
+import accountRoutes from "./routes/accountRoutes.js"
 import { typeDefs, resolvers } from "./graphql/schema.js";
-//import { authMiddleware } from './mid'
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/accounts",accountRoutes)
+// app.use("/api/accounts",loanR)
 
 const server = new ApolloServer({
   typeDefs,
@@ -26,7 +28,7 @@ const startServer = async () => {
 
   app.use("/graphql", expressMiddleware(server, {
     context: async ({ req }) => {
-      // Extract token from Authorization header
+     
       const authHeader = req.headers?.authorization;
       const token = authHeader?.startsWith("Bearer ") ? authHeader.split(" ")[1] : undefined;
 
@@ -44,11 +46,13 @@ const startServer = async () => {
     },
   }));
 
-  // MongoDB connection and server start
+  
   mongoose
     .connect(process.env.MONGO_URI)
-    .then(() => {
+    .then(async () => {
       console.log("MongoDB connected");
+      await seedAdmin();
+
       const PORT = process.env.PORT || 3000;
       app.listen(PORT, () => {
         console.log(`Server ready at http://localhost:${PORT}/graphql`);

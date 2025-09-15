@@ -1,0 +1,51 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-8">
+
+    <h2 class="text-3xl font-bold text-center mb-6">Transfer Money</h2>
+
+    <form (ngSubmit)="onTransfer()" class="space-y-5">
+
+      <!-- From Account -->
+      <div>
+        <label class="block mb-2 font-semibold text-gray-700">From Account</label>
+        <select [(ngModel)]="fromAccountId" name="fromAccountId" required
+                class="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
+          <option value="" disabled selected>Select From Account</option>
+          <option *ngFor="let account of accounts" [value]="account.id">
+            {{ account.accountHolderName }} - {{ account.accountNumber }} ({{ account.balance | currency }})
+          </option>
+        </select>
+      </div>
+
+      <!-- To Account -->
+      <div>
+        <label class="block mb-2 font-semibold text-gray-700">To Account</label>
+        <select [(ngModel)]="toAccountId" name="toAccountId" required
+                class="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
+          <option value="" disabled selected>Select To Account</option>
+          <option *ngFor="let account of accounts" [value]="account.id">
+            {{ account.accountHolderName }} - {{ account.accountNumber }} ({{ account.balance | currency }})
+          </option>
+        </select>
+      </div>
+
+      <!-- Amount -->
+      <div>
+        <label class="block mb-2 font-semibold text-gray-700">Amount</label>
+        <input type="number" [(ngModel)]="amount" name="amount" min="1" required
+               class="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+               placeholder="Enter amount to transfer" />
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit"
+              class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-lg shadow transition">
+        Transfer
+      </button>
+    </form>
+
+    <!-- Success & Error Messages -->
+    <p *ngIf="message" class="text-green-600 text-center mt-4">{{ message }}</p>
+    <p *ngIf="error" class="text-red-600 text-center mt-4">{{ error }}</p>
+  </div>
+</div>

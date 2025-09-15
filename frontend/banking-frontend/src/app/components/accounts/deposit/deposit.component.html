@@ -1,0 +1,37 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Deposit Money</h2>
+
+  <form (ngSubmit)="onDeposit()" class="space-y-4">
+    <div *ngIf="!hasRouteId && accounts.length > 1">
+      <label class="block text-gray-700 font-medium mb-1">Select Account</label>
+      <select [(ngModel)]="selectedAccountId" name="selectedAccountId" required class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option *ngFor="let acc of accounts" [value]="acc._id || acc.id">
+          {{ acc.accountNumber }} - {{ acc.accountHolderName }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Amount</label>
+      <input 
+        type="number" 
+        [(ngModel)]="amount" 
+        name="amount"
+        required
+        class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <button 
+      type="submit"
+      class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg shadow transition transform hover:-translate-y-0.5"
+    >
+      Deposit
+    </button>
+  </form>
+
+  <div class="mt-4 text-center">
+    <p *ngIf="message" class="text-green-600 font-semibold">{{ message }}</p>
+    <p *ngIf="error" class="text-red-600 font-semibold">{{ error }}</p>
+  </div>
+</div>
